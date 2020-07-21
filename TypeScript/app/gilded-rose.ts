@@ -20,6 +20,8 @@ const isAgedBrie = isItemOfName(AGED_BRIE);
 const isBackStagePasses = isItemOfName(BACKSTAGE_PASSES);
 const isSulfuras = isItemOfName(SULFURAS);
 
+const isLegendaryItem = isSulfuras
+
 export class GildedRose {
     items: Array<Item>;
 
@@ -34,7 +36,7 @@ export class GildedRose {
 
             const itemIsBackstagePasses = isBackStagePasses(currentItem)
             const itemIsAgedBrie = isAgedBrie(currentItem)
-            const itemIsSulfuras = isSulfuras(currentItem)
+            const itemIsLegendary = isLegendaryItem(currentItem)
 
             const itemQualityLessThan50 = currentItem.quality < 50
             const itemQualityGreaterThan0 = currentItem.quality > 0
@@ -62,7 +64,8 @@ export class GildedRose {
                     }
                 }
             }
-            if (!itemIsSulfuras) {
+
+            if (!itemIsLegendary) {
                 currentItem.sellIn = currentItem.sellIn - 1;
             }
 
@@ -72,7 +75,7 @@ export class GildedRose {
                 if (!itemIsAgedBrie) {
                     if (!itemIsBackstagePasses) {
                         if (itemQualityGreaterThan0) {
-                            if (!itemIsSulfuras) {
+                            if (!itemIsLegendary) {
                                 currentItem.quality = currentItem.quality - 1
                             }
                         }
