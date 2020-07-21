@@ -41,11 +41,11 @@ export class GildedRose {
             const itemQualityLessThan50 = currentItem.quality < 50
             const itemQualityGreaterThan0 = currentItem.quality > 0
 
-            if (!itemIsAgedBrie && !itemIsBackstagePasses) {
+            const isRegularItem = !itemIsAgedBrie && !itemIsBackstagePasses && !itemIsLegendary
+
+            if (isRegularItem) {
                 if (itemQualityGreaterThan0) {
-                    if (!isSulfuras(currentItem)) {
-                        currentItem.quality = currentItem.quality - 1
-                    }
+                   currentItem.quality = currentItem.quality - 1
                 }
             } else {
                 if (itemQualityLessThan50) {
