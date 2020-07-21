@@ -30,50 +30,51 @@ export class GildedRose {
     updateQuality() {
 
         for (let i = 0; i < this.items.length; i++) {
-            const itemIsBackstagePasses = isBackStagePasses(this.items[i])
-            const itemIsAgedBrie = isAgedBrie(this.items[i])
-            const itemIsSulfuras = isSulfuras(this.items[i])
+            const currentItem = this.items[i]
+            const itemIsBackstagePasses = isBackStagePasses(currentItem)
+            const itemIsAgedBrie = isAgedBrie(currentItem)
+            const itemIsSulfuras = isSulfuras(currentItem)
             
             if (!itemIsAgedBrie && !itemIsBackstagePasses) {
-                if (this.items[i].quality > 0) {
-                    if (!isSulfuras(this.items[i])) {
-                        this.items[i].quality = this.items[i].quality - 1
+                if (currentItem.quality > 0) {
+                    if (!isSulfuras(currentItem)) {
+                        currentItem.quality = currentItem.quality - 1
                     }
                 }
             } else {
-                if (this.items[i].quality < 50) {
-                    this.items[i].quality = this.items[i].quality + 1
+                if (currentItem.quality < 50) {
+                    currentItem.quality = currentItem.quality + 1
                     if (itemIsBackstagePasses) {
-                        if (this.items[i].sellIn < 11) {
-                            if (this.items[i].quality < 50) {
-                                this.items[i].quality = this.items[i].quality + 1
+                        if (currentItem.sellIn < 11) {
+                            if (currentItem.quality < 50) {
+                                currentItem.quality = currentItem.quality + 1
                             }
                         }
-                        if (this.items[i].sellIn < 6) {
-                            if (this.items[i].quality < 50) {
-                                this.items[i].quality = this.items[i].quality + 1
+                        if (currentItem.sellIn < 6) {
+                            if (currentItem.quality < 50) {
+                                currentItem.quality = currentItem.quality + 1
                             }
                         }
                     }
                 }
             }
             if (!itemIsSulfuras) {
-                this.items[i].sellIn = this.items[i].sellIn - 1;
+                currentItem.sellIn = currentItem.sellIn - 1;
             }
-            if (this.items[i].sellIn < 0) {
+            if (currentItem.sellIn < 0) {
                 if (!itemIsAgedBrie) {
                     if (!itemIsBackstagePasses) {
-                        if (this.items[i].quality > 0) {
+                        if (currentItem.quality > 0) {
                             if (!itemIsSulfuras) {
-                                this.items[i].quality = this.items[i].quality - 1
+                                currentItem.quality = currentItem.quality - 1
                             }
                         }
                     } else {
-                        this.items[i].quality = this.items[i].quality - this.items[i].quality
+                        currentItem.quality = currentItem.quality - currentItem.quality
                     }
                 } else {
-                    if (this.items[i].quality < 50) {
-                        this.items[i].quality = this.items[i].quality + 1
+                    if (currentItem.quality < 50) {
+                        currentItem.quality = currentItem.quality + 1
                     }
                 }
             }
