@@ -31,27 +31,31 @@ export class GildedRose {
 
         for (let i = 0; i < this.items.length; i++) {
             const currentItem = this.items[i]
+
             const itemIsBackstagePasses = isBackStagePasses(currentItem)
             const itemIsAgedBrie = isAgedBrie(currentItem)
             const itemIsSulfuras = isSulfuras(currentItem)
-            
+
+            const itemQualityLessThan50 = currentItem.quality < 50
+            const itemQualityGreaterThan0 = currentItem.quality > 0
+
             if (!itemIsAgedBrie && !itemIsBackstagePasses) {
-                if (currentItem.quality > 0) {
+                if (itemQualityGreaterThan0) {
                     if (!isSulfuras(currentItem)) {
                         currentItem.quality = currentItem.quality - 1
                     }
                 }
             } else {
-                if (currentItem.quality < 50) {
+                if (itemQualityLessThan50) {
                     currentItem.quality = currentItem.quality + 1
                     if (itemIsBackstagePasses) {
                         if (currentItem.sellIn < 11) {
-                            if (currentItem.quality < 50) {
+                            if (itemQualityLessThan50) {
                                 currentItem.quality = currentItem.quality + 1
                             }
                         }
                         if (currentItem.sellIn < 6) {
-                            if (currentItem.quality < 50) {
+                            if (itemQualityLessThan50) {
                                 currentItem.quality = currentItem.quality + 1
                             }
                         }
@@ -61,10 +65,13 @@ export class GildedRose {
             if (!itemIsSulfuras) {
                 currentItem.sellIn = currentItem.sellIn - 1;
             }
-            if (currentItem.sellIn < 0) {
+
+            const isPastSellByDate = currentItem.sellIn < 0
+
+            if (isPastSellByDate) {
                 if (!itemIsAgedBrie) {
                     if (!itemIsBackstagePasses) {
-                        if (currentItem.quality > 0) {
+                        if (itemQualityGreaterThan0) {
                             if (!itemIsSulfuras) {
                                 currentItem.quality = currentItem.quality - 1
                             }
@@ -73,7 +80,7 @@ export class GildedRose {
                         currentItem.quality = currentItem.quality - currentItem.quality
                     }
                 } else {
-                    if (currentItem.quality < 50) {
+                    if (itemQualityLessThan50) {
                         currentItem.quality = currentItem.quality + 1
                     }
                 }
