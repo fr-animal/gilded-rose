@@ -22,6 +22,26 @@ const isSulfuras = isItemOfName(SULFURAS);
 
 const isLegendaryItem = isSulfuras
 
+const modifyQualityBy = (amount: number) => (item: Item): void => { item.quality += amount }
+const decreaseQualityBy1 = modifyQualityBy( -1)
+const increaseQualityBy1 = modifyQualityBy( 1)
+
+const ageItem = (item: Item) => { item.sellIn -= 1 }
+const itemQualityLessThan50 = (item: Item) => item.quality < 50
+
+const ageBackstagePasses = (item: Item) => {
+    const hasQualityLessThan50 = itemQualityLessThan50(item)
+    if (hasQualityLessThan50) {
+        if (item.sellIn > 10) {
+            modifyQualityBy(1)(item)
+        } else if (item.sellIn > 5) {
+            modifyQualityBy(2)(item)
+        } else {
+            modifyQualityBy(3)(item)
+        }
+    }
+}
+
 export class GildedRose {
     items: Array<Item>;
 
@@ -34,57 +54,49 @@ export class GildedRose {
         for (let i = 0; i < this.items.length; i++) {
             const currentItem = this.items[i]
 
-            const itemIsBackstagePasses = isBackStagePasses(currentItem)
-            const itemIsAgedBrie = isAgedBrie(currentItem)
-            const itemIsLegendary = isLegendaryItem(currentItem)
+            const currentItemIsBackstagePasses = isBackStagePasses(currentItem)
+            const currentItemIsAgedBrie = isAgedBrie(currentItem)
+            const currentItemIsLegendary = isLegendaryItem(currentItem)
 
-            const itemQualityLessThan50 = currentItem.quality < 50
-            const itemQualityGreaterThan0 = currentItem.quality > 0
+            const currentItemQualityLessThan50 = currentItem.quality < 50
+            const currentItemQualityGreaterThan0 = currentItem.quality > 0
 
-            const isRegularItem = !itemIsAgedBrie && !itemIsBackstagePasses && !itemIsLegendary
+            const qualityDecreasesWithTime = !currentItemIsAgedBrie && !currentItemIsBackstagePasses && !currentItemIsLegendary
 
-            if (isRegularItem) {
-                if (itemQualityGreaterThan0) {
-                   currentItem.quality = currentItem.quality - 1
+            if (qualityDecreasesWithTime) {
+                if (currentItemQualityGreaterThan0) {
+                    decreaseQualityBy1(currentItem)
                 }
             } else {
-                if (itemQualityLessThan50) {
-                    currentItem.quality = currentItem.quality + 1
-                    if (itemIsBackstagePasses) {
-                        if (currentItem.sellIn < 11) {
-                            if (itemQualityLessThan50) {
-                                currentItem.quality = currentItem.quality + 1
-                            }
-                        }
-                        if (currentItem.sellIn < 6) {
-                            if (itemQualityLessThan50) {
-                                currentItem.quality = currentItem.quality + 1
-                            }
-                        }
+                if (currentItemQualityLessThan50) {
+                    if (currentItemIsBackstagePasses) {
+                        ageBackstagePasses(currentItem)
+                    } else {
+                        increaseQualityBy1(currentItem)
                     }
                 }
             }
 
-            if (!itemIsLegendary) {
-                currentItem.sellIn = currentItem.sellIn - 1;
+            if (!currentItemIsLegendary) {
+                ageItem(currentItem)
             }
 
-            const isPastSellByDate = currentItem.sellIn < 0
+            const currentItemIsPastSellByDate = currentItem.sellIn < 0
 
-            if (isPastSellByDate) {
-                if (!itemIsAgedBrie) {
-                    if (!itemIsBackstagePasses) {
-                        if (itemQualityGreaterThan0) {
-                            if (!itemIsLegendary) {
-                                currentItem.quality = currentItem.quality - 1
+            if (currentItemIsPastSellByDate) {
+                if (!currentItemIsAgedBrie) {
+                    if (!currentItemIsBackstagePasses) {
+                        if (currentItemQualityGreaterThan0) {
+                            if (!currentItemIsLegendary) {
+                                decreaseQualityBy1(currentItem)
                             }
                         }
                     } else {
                         currentItem.quality = currentItem.quality - currentItem.quality
                     }
                 } else {
-                    if (itemQualityLessThan50) {
-                        currentItem.quality = currentItem.quality + 1
+                    if (currentItemQualityLessThan50) {
+                        increaseQualityBy1(currentItem)
                     }
                 }
             }
