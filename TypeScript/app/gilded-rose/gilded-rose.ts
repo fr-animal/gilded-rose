@@ -1,12 +1,16 @@
+import { compose } from "../utils";
+
 import {
     adjustBackstagePasses,
     cloneItem,
-    compose,
-    decreaseQualityBy1, getCurrentItemAgeBy,
+    decreaseQualityBy1,
+    getCurrentItemAgeBy,
     increaseQualityBy1,
     isAgedBrie,
     isBackStagePasses,
-    isLegendaryItem
+    isConjuredItem,
+    isLegendaryItem,
+    modifyQualityBy
 } from "./utils";
 
 export class Item {
@@ -46,11 +50,9 @@ const adjustCurrentItemQuality = (item: Item): Item => {
 
     const qualityDecreasesWithTime = !currentItemIsAgedBrie && !currentItemIsBackstagePasses && !currentItemIsLegendary
 
-
-
     if (qualityDecreasesWithTime) {
         if (currentItemQualityGreaterThan0) {
-            decreaseQualityBy1(newItem)
+            modifyQualityBy(isConjuredItem(item) ? -2 : -1)(newItem)
         }
     } else {
         if (currentItemQualityLessThan50) {

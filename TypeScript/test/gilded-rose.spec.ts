@@ -6,6 +6,7 @@ const assertItemUpdate = (items1: Item[], items2: Item[]): void  => {
     const updatedItems = gildedRose.updateQuality()
     expect(updatedItems).to.deep.equal(items2)
 }
+
 describe('Gilded Rose', function () {
     describe('Regular items', () => {
         it('Should decrease quality' ,() => {
@@ -84,6 +85,15 @@ describe('Gilded Rose', function () {
             assertItemUpdate(
                 [ new Item('Backstage passes to a TAFKAL80ETC concert', 0, 30) ],
                 [ new Item('Backstage passes to a TAFKAL80ETC concert', -1, 0) ]
+            )
+        })
+    })
+
+    describe('Conjured items', () => {
+        it('Should decrease in value by 2 each day', () => {
+            assertItemUpdate(
+                [ new Item('Conjured loin cloth', 20, 30) ],
+                [ new Item('Conjured loin cloth', 19, 28) ]
             )
         })
     })

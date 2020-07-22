@@ -21,9 +21,6 @@ const itemQualityLessThan50 = (item: Item): boolean => item.quality < 50
 
 export const cloneItem = (item: Item): Item => new Item(item.name, item.sellIn, item.quality)
 
-export const compose = <R>(fn1: (a: R) => R, ...fns: Array<(a: R) => R>) =>
-    fns.reduce((prevFn, nextFn) => value => prevFn(nextFn(value)), fn1);
-
 export const adjustBackstagePasses = (item: Item): void => {
     const hasQualityLessThan50 = itemQualityLessThan50(item)
     if (hasQualityLessThan50) {
@@ -37,6 +34,7 @@ export const adjustBackstagePasses = (item: Item): void => {
     }
 }
 
+export const isConjuredItem = (item: Item) => !!~item.name.toLowerCase().indexOf('conjured')
 
 export const getCurrentItemAgeBy = (item: Item): number => {
     if (isLegendaryItem(item)){
