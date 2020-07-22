@@ -61,22 +61,22 @@ describe('Gilded Rose', function () {
         describe('Increase in value', () => {
             it('By 1 when there are more than 10 days before the event', () => {
                 assertItemUpdate(
-                    [ new Item('Backstage passes to a TAFKAL80ETC concert', 20, 30) ],
-                    [ new Item('Backstage passes to a TAFKAL80ETC concert', 19, 31) ]
+                    [ new Item('Backstage passes to a concert', 20, 30) ],
+                    [ new Item('Backstage passes to a concert', 19, 31) ]
                 )
             })
 
             it('By 2 when there are more than 5 but less than or equal to 10 days before the event', () => {
                 assertItemUpdate(
-                    [ new Item('Backstage passes to a TAFKAL80ETC concert', 10, 30) ],
-                    [ new Item('Backstage passes to a TAFKAL80ETC concert', 9, 32) ]
+                    [ new Item('Backstage passes to a random concert', 10, 30) ],
+                    [ new Item('Backstage passes to a random concert', 9, 32) ]
                 )
             })
 
             it('By 3 when there are more than 0 but less than or equal to 5 days before the event', () => {
                 assertItemUpdate(
-                    [ new Item('Backstage passes to a TAFKAL80ETC concert', 5, 30) ],
-                    [ new Item('Backstage passes to a TAFKAL80ETC concert', 4, 33) ]
+                    [ new Item('Backstage passes to a specific concert', 5, 30) ],
+                    [ new Item('Backstage passes to a specific concert', 4, 33) ]
                 )
             })
         })
